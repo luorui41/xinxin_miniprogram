@@ -1,0 +1,47 @@
+<!--index.wxml-->
+<navigation-bar title="首页" back="{{false}}" color="white" background="transparent"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list" refresher-enabled="{{true}}" refresher-triggered="{{refresherTriggered}}" bindrefresherrefresh="onRefresherRefresh">
+  <view class="container">
+    <view class="userCard">
+      <!-- 头部：头像 + 昵称 -->
+      <view class="userCard__header">
+        <view class="userCard__avatar">
+          <image class="userCard__avatarImg" src="/images/avatar-placeholder.png" mode="aspectFill"></image>
+        </view>
+        <view class="userCard__name">
+          <view class="userCard__nickname">{{userInfo ? userInfo.nickName : '用户'}}</view>
+          <view class="userCard__field">
+            <text class="userCard__label">出生日期</text>
+            <text class="userCard__value">{{userInfo.birthday}}</text>
+          </view>
+          <view class="userCard__field">
+            <text class="userCard__label">年龄</text>
+            <text class="userCard__value">{{userInfo.age}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 本周饮食小结 -->
+    <view class="dietSummaryCard">
+      <view class="dietSummaryHeader">
+        <text class="dietSummaryTitle">本周饮食小结</text>
+        <text class="dietSummarySubTitle">{{mondayStr}} ~ {{todayStr}}</text>
+      </view>
+      <view wx:if="{{dietSummaryLoading}}" class="dietSummaryLoading">
+        <text>加载中...</text>
+      </view>
+      <view wx:elif="{{dietSummary.length === 0}}" class="dietSummaryEmpty">
+        <text>暂无记录</text>
+      </view>
+      <view wx:else class="dietSummaryList">
+        <block wx:for="{{dietSummary}}" wx:key="typeDesc">
+          <view class="dietSummaryItem">
+            <text class="dietSummaryType">{{item.typeDesc}}</text>
+            <text class="dietSummaryCount">{{item.count}}次</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</scroll-view>

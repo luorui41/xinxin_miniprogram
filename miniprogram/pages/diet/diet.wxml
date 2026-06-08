@@ -1,0 +1,125 @@
+<navigation-bar title="饮食" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<!-- 周导航在 scroll-view 外面 -->
+<view class="weekNav">
+  <view class="navLeft">
+    <view class="navBtn" bindtap="handlePrevWeek">‹</view>
+    <view class="weekLabel">
+      <text class="weekLabelMain">{{weekLabel}}</text>
+      <text class="weekLabelRange">{{dateRange}}</text>
+    </view>
+    <view class="navBtn" bindtap="handleNextWeek">›</view>
+  </view>
+  <view class="modeTabs">
+    <view class="modeTab {{viewMode === 'record' ? 'modeTabActive' : ''}}" data-mode="record" bindtap="handleViewModeChange">
+      记录模式
+    </view>
+    <view class="modeTab {{viewMode === 'plan' ? 'modeTabActive' : ''}}" data-mode="plan" bindtap="handleViewModeChange">
+      计划模式
+    </view>
+  </view>
+</view>
+
+<scroll-view class="scrollarea" scroll-y type="list" refresher-enabled="{{true}}" refresher-triggered="{{refresherTriggered}}" bindrefresherrefresh="onRefresherRefresh">
+  <view class="container">
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="loadingBox">
+      <text class="loadingText">加载中...</text>
+    </view>
+
+    <!-- 七天列表 -->
+    <view wx:if="{{!loading}}" class="daysList">
+      <block wx:for="{{weekDays}}" wx:key="dateStr">
+        <view class="dayCard {{weekRecords[item.dateStr] && weekRecords[item.dateStr].isToday ? 'today' : ''}} {{weekRecords[item.dateStr] && weekRecords[item.dateStr].isFuture ? 'futureDay' : ''}}">
+          <!-- 日期头部 -->
+          <view class="dayHeader">
+            <text class="dayName">{{weekRecords[item.dateStr] ? weekRecords[item.dateStr].dayName : ''}}</text>
+            <text class="dayDate">{{weekRecords[item.dateStr] ? weekRecords[item.dateStr].dayDate : ''}}</text>
+          </view>
+          <!-- 三餐内容 -->
+          <view class="dayContent">
+            <block wx:for="{{mealTypes}}" wx:key="value" wx:for-item="mealType">
+              <view class="mealSection">
+                <view class="mealSectionHeader">
+                  <view class="mealLabel">{{mealType.label}}</view>
+                  <view class="addMealIcon" data-date="{{item.dateStr}}" data-meal-type="{{mealType.value}}" data-meal-label="{{mealType.label}}" bindtap="handleAddMeal">+</view>
+                </view>
+                <block wx:if="{{weekRecords[item.dateStr] && weekRecords[item.dateStr].meals[mealType.value] && weekRecords[item.dateStr].meals[mealType.value].length > 0}}">
+                  <view class="mealItemList">
+                    <block wx:for="{{weekRecords[item.dateStr].meals[mealType.value]}}" wx:key="id" wx:for-item="meal">
+                      <view class="mealItem">
+                        <view class="typeBadge {{'typeBadge' + meal.recipeType}}">
+                          {{meal.recipeType === 1 ? '荤' : meal.recipeType === 2 ? '素' : meal.recipeType === 3 ? '果' : meal.recipeType === 4 ? '主' : '其'}}
+                        </view>
+                        <text class="mealName">{{meal.recipeName}}</text>
+                        <view class="deleteIcon" data-id="{{meal.id}}" bindtap="handleDeleteMeal">−</view>
+                      </view>
+                    </block>
+                  </view>
+                </block>
+                <view wx:else class="emptyMeal">暂无记录</view>
+              </view>
+            </block>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</scroll-view>
+<!-- 添加/编辑弹窗 -->
+<root-portal wx:if="{{formVisible}}">
+  <view class="formMask" bindtap="hideForm">
+    <view class="formModal" catchtap="preventBubble">
+      <!-- 弹窗头部 -->
+      <view class="formHeader">
+        <text class="formTitle">添加饮食记录</text>
+        <view class="formClose" bindtap="hideForm">×</view>
+      </view>
+
+      <!-- 弹窗内容 -->
+      <view class="formBody">
+        <!-- 日期和餐次 -->
+        <view class="formInfo">
+          <text class="formInfoItem">日期：{{formDate}}</text>
+          <text class="formInfoItem">餐次：{{mealOptions[formMealType - 1].label}}</text>
+        </view>
+
+        <!-- 菜谱类型筛选 -->
+        <view class="formField">
+          <text class="formLabel">菜谱类型</text>
+          <view class="typeTagList">
+            <block wx:for="{{recipeTypeOptions}}" wx:key="value">
+              <view class="typeTag {{filterType === item.value ? 'typeTagActive' : ''}}" data-type="{{item.value}}" bindtap="handleFilterTypeChange">
+                {{item.label}}
+              </view>
+            </block>
+          </view>
+        </view>
+
+        <!-- 选择菜谱 -->
+        <view class="formField">
+          <text class="formLabel">选择菜谱 <text class="required">*</text></text>
+          <picker wx:if="{{!loadingRecipes}}" mode="selector" range="{{filteredRecipes}}" range-key="label" value="{{selectedRecipeIndex}}" bindchange="handleRecipeChange">
+            <view class="pickerValue {{selectedRecipe ? '' : 'pickerPlaceholder'}}">
+              {{selectedRecipe ? selectedRecipe.name : '请选择菜谱'}}
+            </view>
+          </picker>
+          <view wx:else class="pickerLoading">加载中...</view>
+        </view>
+
+        <!-- 备注 -->
+        <view class="formField">
+          <text class="formLabel">备注</text>
+          <textarea class="formTextarea" value="{{formDietDesc}}" bindinput="handleDietDescInput" placeholder="请输入备注（可选）" maxlength="200" />
+        </view>
+      </view>
+
+      <!-- 弹窗底部 -->
+      <view class="formFooter">
+        <view class="formCancelBtn" bindtap="hideForm">取消</view>
+        <view class="formSubmitBtn {{submitting ? 'formSubmitBtnDisabled' : ''}}" bindtap="handleSubmit">
+          {{submitting ? '提交中...' : '确定'}}
+        </view>
+      </view>
+    </view>
+  </view>
+</root-portal>
