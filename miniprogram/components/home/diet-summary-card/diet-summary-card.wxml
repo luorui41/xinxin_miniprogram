@@ -1,0 +1,26 @@
+<view class="dietSummaryCard">
+  <view class="dietSummaryHeader">
+    <view class="dietSummaryHeaderLeft">
+      <text class="dietSummaryTitle">本周饮食小结</text>
+      <text class="dietSummarySubTitle">{{mondayStr}} ~ {{todayStr}}</text>
+    </view>
+    <view class="dietSummaryMore" bindtap="handleMore">
+      <text class="dietSummaryMoreText">更多</text>
+      <text class="dietSummaryMoreArrow">›</text>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" class="dietSummaryLoading">
+    <text>加载中...</text>
+  </view>
+  <view wx:elif="{{dietSummary.length === 0}}" class="dietSummaryEmpty">
+    <text>暂无记录</text>
+  </view>
+  <view wx:else class="dietSummaryList">
+    <block wx:for="{{dietSummary}}" wx:key="typeDesc">
+      <view class="dietSummaryItem">
+        <text class="dietSummaryType">{{item.typeDesc}}</text>
+        <text class="dietSummaryCount">{{item.recipeCount}}种 {{item.count}}次</text>
+      </view>
+    </block>
+  </view>
+</view>

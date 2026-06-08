@@ -1,0 +1,18 @@
+<view class="weekNav">
+  <view class="navLeft">
+    <view class="navBtn" bindtap="handlePrevWeek">‹</view>
+    <view class="weekLabel">
+      <text class="weekLabelMain">{{weekLabel}}</text>
+      <text class="weekLabelRange">{{dateRange}}</text>
+    </view>
+    <view class="navBtn" bindtap="handleNextWeek">›</view>
+  </view>
+  <view class="modeTabs">
+    <view class="modeTab {{viewMode === 'record' ? 'modeTabActive' : ''}}" data-mode="record" bindtap="handleViewModeChange">
+      记录模式
+    </view>
+    <view class="modeTab {{viewMode === 'plan' ? 'modeTabActive' : ''}}" data-mode="plan" bindtap="handleViewModeChange">
+      计划模式
+    </view>
+  </view>
+</view>

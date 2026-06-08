@@ -1,0 +1,30 @@
+<view class="dayCard {{dayRecord && dayRecord.isToday ? 'today' : ''}} {{dayRecord && dayRecord.isFuture ? 'futureDay' : ''}}">
+  <view class="dayHeader">
+    <text class="dayName">{{dayRecord ? dayRecord.dayName : ''}}</text>
+    <text class="dayDate">{{dayRecord ? dayRecord.dayDate : ''}}</text>
+  </view>
+  <view class="dayContent">
+    <block wx:for="{{mealTypes}}" wx:key="value" wx:for-item="mealType">
+      <view class="mealSection">
+        <view class="mealSectionHeader">
+          <view class="mealLabel">{{mealType.label}}</view>
+          <view class="addMealIcon" data-date="{{dateStr}}" data-meal-type="{{mealType.value}}" data-meal-label="{{mealType.label}}" bindtap="handleAddMeal">+</view>
+        </view>
+        <block wx:if="{{dayRecord && dayRecord.meals[mealType.value] && dayRecord.meals[mealType.value].length > 0}}">
+          <view class="mealItemList">
+            <block wx:for="{{dayRecord.meals[mealType.value]}}" wx:key="id" wx:for-item="meal">
+              <view class="mealItem">
+                <view class="typeBadge {{'typeBadge' + meal.recipeType}}">
+                  {{meal.recipeType === 1 ? '荤' : meal.recipeType === 2 ? '素' : meal.recipeType === 3 ? '果' : meal.recipeType === 4 ? '主' : '其'}}
+                </view>
+                <text class="mealName">{{meal.recipeName}}</text>
+                <view class="deleteIcon" data-id="{{meal.id}}" bindtap="handleDeleteMeal">−</view>
+              </view>
+            </block>
+          </view>
+        </block>
+        <view wx:else class="emptyMeal">暂无记录</view>
+      </view>
+    </block>
+  </view>
+</view>

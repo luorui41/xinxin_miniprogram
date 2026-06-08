@@ -1,0 +1,18 @@
+<view class="userCard">
+  <view class="userCard__header">
+    <view class="userCard__avatar">
+      <image class="userCard__avatarImg" src="/images/avatar-placeholder.png" mode="aspectFill"></image>
+    </view>
+    <view class="userCard__name">
+      <view class="userCard__nickname">{{userInfo ? userInfo.nickName : '用户'}}</view>
+      <view class="userCard__field">
+        <text class="userCard__label">出生日期</text>
+        <text class="userCard__value">{{userInfo.birthday}}</text>
+      </view>
+      <view class="userCard__field">
+        <text class="userCard__label">年龄</text>
+        <text class="userCard__value">{{userInfo.age}}</text>
+      </view>
+    </view>
+  </view>
+</view>

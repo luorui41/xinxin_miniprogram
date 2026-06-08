@@ -150,7 +150,14 @@ Component({
   lifetimes: {
     attached() {
       this.refreshWeekData()
-    },
+    }
+  },
+  pageLifetimes: {
+    show() {
+      if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+        this.getTabBar()?.setSelected(1)
+      }
+    }
   },
   methods: {
     refreshWeekData() {
@@ -234,17 +241,17 @@ Component({
       })
     },
     handleViewModeChange(e: any) {
-      const mode = e.currentTarget.dataset.mode as ViewMode
+      const { mode } = e.detail as { mode: ViewMode }
       this.setData({ viewMode: mode }, () => {
         this.fetchWeekRecords()
       })
     },
     handleAddMeal(e: any) {
-      const { date, mealType, mealLabel } = e.currentTarget.dataset
+      const { date, mealType } = e.detail
       this.showAddForm(date, Number(mealType))
     },
     handleDeleteMeal(e: any) {
-      const id = e.currentTarget.dataset.id
+      const { id } = e.detail
       wx.showModal({
         title: '确认删除',
         content: '确定要删除该饮食记录吗？删除后不可恢复。',
@@ -309,13 +316,13 @@ Component({
       this.setData({ filteredRecipes: filtered, selectedRecipeIndex: 0, selectedRecipe: null })
     },
     handleFilterTypeChange(e: any) {
-      const typeValue = Number(e.currentTarget.dataset.type)
-      this.setData({ filterType: typeValue }, () => {
+      const { typeValue } = e.detail
+      this.setData({ filterType: Number(typeValue) }, () => {
         this.updateFilteredRecipes()
       })
     },
     handleRecipeChange(e: any) {
-      const index = e.detail.value
+      const { index } = e.detail
       const filteredRecipes = this.data.filteredRecipes
       if (index >= 0 && index < filteredRecipes.length) {
         const recipeId = filteredRecipes[index].id

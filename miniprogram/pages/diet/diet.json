@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "navigation-bar": "/components/navigation-bar/navigation-bar"
+    "navigation-bar": "/components/common/navigation-bar/navigation-bar",
+    "week-navigator": "/components/diet/week-navigator/week-navigator",
+    "day-card": "/components/diet/day-card/day-card",
+    "diet-form-modal": "/components/diet/diet-form-modal/diet-form-modal"
   }
 }

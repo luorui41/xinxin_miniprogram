@@ -18,6 +18,7 @@ interface DietSummaryItem {
 interface DietSummaryGroup {
   typeDesc: string
   count: number
+  recipeCount: number
 }
 
 function formatDateStr(date: Date): string {
@@ -55,6 +56,9 @@ Component({
   },
   pageLifetimes: {
     show() {
+      if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+        this.getTabBar()?.setSelected(0)
+      }
       this.fetchDietSummary()
     }
   },
@@ -78,6 +82,11 @@ Component({
         this.setData({ refresherTriggered: false })
       }, 500)
     },
+    goToDiet() {
+      wx.switchTab({
+        url: '/pages/diet/diet',
+      })
+    },
     async fetchDietSummary() {
       this.setData({ dietSummaryLoading: true })
       try {
@@ -95,9 +104,11 @@ Component({
         list.forEach((item) => {
           const key = item.typeDesc || '其他'
           if (typeMap.has(key)) {
-            typeMap.get(key)!.count += item.count
+            const existing = typeMap.get(key)!
+            existing.count += item.count
+            existing.recipeCount += 1
           } else {
-            typeMap.set(key, { typeDesc: key, count: item.count })
+            typeMap.set(key, { typeDesc: key, count: item.count, recipeCount: 1 })
           }
         })
         const summaryList = Array.from(typeMap.values())

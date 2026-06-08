@@ -24,7 +24,10 @@ Component({
       if (currentPage && currentPage.route === path.replace(/^\//, '')) {
         return
       }
+      this.setData({ selected: Number(index) })
       wx.switchTab({ url: path })
+    },
+    setSelected(index: number) {
       this.setData({ selected: index })
     },
   },
