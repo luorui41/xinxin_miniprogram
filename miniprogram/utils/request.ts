@@ -3,7 +3,7 @@
 const accountInfo = wx.getAccountInfoSync()
 const envVersion = accountInfo.miniProgram.envVersion
 const isDevelopment = envVersion === 'develop'
-const BASE_URL = !isDevelopment ? 'http://localhost:8080/api' : 'https://www.xinxinbaby.com.cn/api'
+const BASE_URL = isDevelopment ? 'http://localhost:8080/api' : 'https://www.xinxinbaby.com.cn/api'
 
 interface ApiResponse<T> {
   code: number
