@@ -21,6 +21,22 @@ interface DietSummaryGroup {
   recipeCount: number
 }
 
+interface ToiletHardnessItem {
+  hardness: number
+  count: number
+}
+
+interface ToiletAmountItem {
+  amount: number
+  count: number
+}
+
+interface ToiletSummary {
+  toiletCount: number
+  hardnessItems: ToiletHardnessItem[]
+  amountItems: ToiletAmountItem[]
+}
+
 function formatDateStr(date: Date): string {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -43,6 +59,9 @@ Component({
     // 饮食小结
     dietSummary: [] as DietSummaryGroup[],
     dietSummaryLoading: false,
+    // 如厕小结
+    toiletSummary: null as ToiletSummary | null,
+    toiletSummaryLoading: false,
     mondayStr: '',
     todayStr: '',
     // 下拉刷新
@@ -52,6 +71,7 @@ Component({
     attached() {
       this.fetchUserInfo()
       this.fetchDietSummary()
+      this.fetchToiletSummary()
     }
   },
   pageLifetimes: {
@@ -60,6 +80,7 @@ Component({
         this.getTabBar()?.setSelected(0)
       }
       this.fetchDietSummary()
+      this.fetchToiletSummary()
     }
   },
   methods: {
@@ -78,6 +99,7 @@ Component({
       this.setData({ refresherTriggered: true })
       await this.fetchUserInfo()
       await this.fetchDietSummary()
+      await this.fetchToiletSummary()
       setTimeout(() => {
         this.setData({ refresherTriggered: false })
       }, 500)
@@ -117,6 +139,29 @@ Component({
         console.error('获取饮食小结失败:', err)
       } finally {
         this.setData({ dietSummaryLoading: false })
+      }
+    },
+    goToToilet() {
+      wx.navigateTo({
+        url: '/pages/living/toilet/toilet',
+      })
+    },
+    async fetchToiletSummary() {
+      this.setData({ toiletSummaryLoading: true })
+      try {
+        const today = new Date()
+        const monday = getMonday(today)
+        const mondayStr = formatDateStr(monday)
+        const todayStr = formatDateStr(today)
+        const res = await get<ToiletSummary>('/toilet/summary', {
+          startDate: mondayStr,
+          endDate: todayStr,
+        })
+        this.setData({ toiletSummary: res })
+      } catch (err) {
+        console.error('获取如厕小结失败:', err)
+      } finally {
+        this.setData({ toiletSummaryLoading: false })
       }
     },
   }

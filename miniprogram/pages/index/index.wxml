@@ -4,5 +4,6 @@
   <view class="container">
     <user-card userInfo="{{userInfo}}"></user-card>
     <diet-summary-card dietSummary="{{dietSummary}}" mondayStr="{{mondayStr}}" todayStr="{{todayStr}}" loading="{{dietSummaryLoading}}" bind:more="goToDiet"></diet-summary-card>
+    <toilet-summary-card wx:if="{{toiletSummary}}" toiletCount="{{toiletSummary.toiletCount}}" hardnessItems="{{toiletSummary.hardnessItems}}" amountItems="{{toiletSummary.amountItems}}" mondayStr="{{mondayStr}}" todayStr="{{todayStr}}" loading="{{toiletSummaryLoading}}" bind:more="goToToilet"></toilet-summary-card>
   </view>
 </scroll-view>

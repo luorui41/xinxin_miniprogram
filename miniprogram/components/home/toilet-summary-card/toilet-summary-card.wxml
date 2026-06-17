@@ -1,0 +1,58 @@
+<view class="toiletSummaryCard">
+  <view class="toiletSummaryHeader">
+    <view class="toiletSummaryHeaderLeft">
+      <text class="toiletSummaryTitle">本周如厕情况</text>
+      <text class="toiletSummarySubTitle">{{mondayStr}} ~ {{todayStr}}</text>
+    </view>
+    <view class="toiletSummaryMore" bindtap="handleMore">
+      <text class="toiletSummaryMoreText">更多</text>
+      <text class="toiletSummaryMoreArrow">›</text>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" class="toiletSummaryLoading">
+    <text>加载中...</text>
+  </view>
+  <view wx:elif="{{toiletCount === 0}}" class="toiletSummaryEmpty">
+    <text>暂无记录</text>
+  </view>
+  <view wx:else>
+    <view class="toiletCountCard">
+      <text class="toiletCountNum">{{toiletCount}}</text>
+      <text class="toiletCountLabel">次</text>
+    </view>
+    <view class="toiletSummaryContent">
+      <view class="toiletSection">
+        <text class="toiletSectionTitle">软硬程度</text>
+        <view class="toiletProgressList">
+          <block wx:for="{{hardnessItemsWithDesc}}" wx:key="hardness">
+            <view class="toiletProgressItem">
+              <view class="toiletProgressLeft">
+                <view class="toiletDot" style="background-color: {{item.color}}"></view>
+                <text class="toiletProgressLabel">{{item.desc}}</text>
+              </view>
+              <view class="toiletProgressRight">
+                <text class="toiletProgressCount">{{item.count}}次 ({{item.percentageStr}})</text>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="toiletSection">
+        <text class="toiletSectionTitle">如厕量</text>
+        <view class="toiletProgressList">
+          <block wx:for="{{amountItemsWithDesc}}" wx:key="amount">
+            <view class="toiletProgressItem">
+              <view class="toiletProgressLeft">
+                <view class="toiletDot" style="background-color: {{item.color}}"></view>
+                <text class="toiletProgressLabel">{{item.desc}}</text>
+              </view>
+              <view class="toiletProgressRight">
+                <text class="toiletProgressCount">{{item.count}}次 ({{item.percentageStr}})</text>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
