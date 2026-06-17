@@ -1,0 +1,137 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.sleepChart {
+  width: 100%;
+}
+
+/* 时间轴头部 */
+.timeAxis {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+  margin-bottom: 16rpx;
+}
+
+.dateHeader {
+  width: 60rpx;
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+  font-weight: 500;
+}
+
+.timePoints {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 16rpx;
+  padding-right: 16rpx;
+}
+
+.timePoint {
+  font-size: 22rpx;
+  color: #666666;
+  width: 40rpx;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* 每日睡眠行 */
+.dayRows {
+  width: 100%;
+}
+
+.dayRow {
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.dayRow:last-child {
+  border-bottom: none;
+}
+
+.dayRow:active {
+  background-color: #f8f9fa;
+}
+
+.dayLabel {
+  width: 60rpx;
+  font-size: 26rpx;
+  color: #333333;
+  text-align: center;
+  font-weight: 500;
+}
+
+.sleepBars {
+  flex: 1;
+  height: 48rpx;
+  background: #f5f7fa;
+  border-radius: 12rpx;
+  margin-left: 12rpx;
+  margin-right: 8rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.sleepBar {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 12rpx;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.sleepBar:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.sleepBarInner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(79, 172, 254, 0.4);
+}
+
+.emptyArea {
+  width: 100%;
+  height: 100%;
+}
+
+/* 图例 */
+.legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 16rpx;
+  gap: 24rpx;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.legendDot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.legendText {
+  font-size: 22rpx;
+  color: #999999;
+}

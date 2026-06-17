@@ -17,10 +17,37 @@
   </view>
   <view wx:else class="dietSummaryList">
     <block wx:for="{{dietSummary}}" wx:key="typeDesc">
-      <view class="dietSummaryItem">
+      <view class="dietSummaryItem" bindtap="handleItemClick" data-item="{{item}}">
         <text class="dietSummaryType">{{item.typeDesc}}</text>
-        <text class="dietSummaryCount">{{item.recipeCount}}种 {{item.count}}次</text>
+        <view class="dietSummaryRight">
+          <text class="dietSummaryCount">{{item.recipeCount}}种 {{item.count}}次</text>
+        </view>
       </view>
     </block>
   </view>
 </view>
+
+<!-- 使用 root-portal 渲染弹窗到页面根节点 -->
+<root-portal>
+  <view wx:if="{{recipeModalVisible}}" class="recipeModalMask" bindtap="handleCloseModal">
+    <view class="recipeModalContent" catchtap="preventBubble">
+      <view class="recipeModalHeader">
+        <text class="recipeModalTitle">{{selectedType.typeDesc || ''}}</text>
+        <view class="recipeModalClose" bindtap="handleCloseModal">×</view>
+      </view>
+      <view class="recipeModalBody">
+        <view wx:if="{{!selectedType.recipes || selectedType.recipes.length === 0}}" class="recipeModalEmpty">
+          <text>暂无菜谱记录</text>
+        </view>
+        <view wx:else class="recipeModalList">
+          <block wx:for="{{selectedType.recipes}}" wx:key="recipeName">
+            <view class="recipeModalItem">
+              <text class="recipeModalRecipeName">{{item.recipeName}}</text>
+              <text class="recipeModalCount">{{item.count}}次</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</root-portal>

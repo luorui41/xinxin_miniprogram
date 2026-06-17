@@ -3,6 +3,7 @@
     "navigation-bar": "/components/common/navigation-bar/navigation-bar",
     "user-card": "/components/home/user-card/user-card",
     "diet-summary-card": "/components/home/diet-summary-card/diet-summary-card",
-    "toilet-summary-card": "/components/home/toilet-summary-card/toilet-summary-card"
+    "toilet-summary-card": "/components/home/toilet-summary-card/toilet-summary-card",
+    "sleep-summary-card": "/components/home/sleep-summary-card/sleep-summary-card"
   }
 }

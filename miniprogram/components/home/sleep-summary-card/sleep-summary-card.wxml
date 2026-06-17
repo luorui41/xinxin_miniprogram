@@ -1,0 +1,42 @@
+<view class="sleepSummaryCard">
+  <view class="sleepSummaryHeader">
+    <view class="sleepSummaryHeaderLeft">
+      <text class="sleepSummaryTitle">本周睡眠情况</text>
+      <text class="sleepSummarySubTitle">{{mondayStr}} ~ {{todayStr}}</text>
+    </view>
+    <view class="sleepSummaryMore" bindtap="handleMore">
+      <text class="sleepSummaryMoreText">更多</text>
+      <text class="sleepSummaryMoreArrow">›</text>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" class="sleepSummaryLoading">
+    <text>加载中...</text>
+  </view>
+  <view wx:elif="{{!sleepSummary}}" class="sleepSummaryEmpty">
+    <text>暂无记录</text>
+  </view>
+  <view wx:else>
+    <view class="sleepTotalCard">
+      <text class="sleepTotalLabel">总睡眠时长</text>
+      <text class="sleepTotalValue">{{sleepSummary.sleepDuration || '--'}}</text>
+    </view>
+    <view class="sleepGrid">
+      <view class="sleepGridItem">
+        <text class="sleepGridLabel">睡眠次数</text>
+        <text class="sleepGridValue">{{sleepSummary.sleepTimes || 0}} 次</text>
+      </view>
+      <view class="sleepGridItem">
+        <text class="sleepGridLabel">夜醒次数</text>
+        <text class="sleepGridValue">{{sleepSummary.wakeupTimes || 0}} 次</text>
+      </view>
+      <view class="sleepGridItem">
+        <text class="sleepGridLabel">白天睡眠 (09:00-18:00)</text>
+        <text class="sleepGridValue">{{sleepSummary.sleepDurationDayTime || '--'}}</text>
+      </view>
+      <view class="sleepGridItem">
+        <text class="sleepGridLabel">夜间睡眠 (18:00-09:00)</text>
+        <text class="sleepGridValue">{{sleepSummary.sleepDurationNightTime || '--'}}</text>
+      </view>
+    </view>
+  </view>
+</view>

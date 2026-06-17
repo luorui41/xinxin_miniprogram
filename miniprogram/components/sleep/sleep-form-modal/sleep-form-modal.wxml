@@ -1,0 +1,63 @@
+<view class="modalMask" wx:if="{{visible}}" bindtap="handleClose">
+  <view class="modalContent" catchtap="preventBubble">
+    <view class="modalHeader">
+      <text class="modalTitle">{{mode === 'add' ? '新增睡眠记录' : '编辑睡眠记录'}}</text>
+      <view class="modalClose" bindtap="handleClose">×</view>
+    </view>
+    
+    <view class="modalBody">
+      <!-- 开始日期 -->
+      <view class="formItem">
+        <text class="formLabel">开始日期</text>
+        <picker mode="date" value="{{startDate}}" bindchange="handleStartDateChange">
+          <view class="pickerValue">{{startDate || '请选择'}}</view>
+        </picker>
+      </view>
+      
+      <!-- 开始时间 -->
+      <view class="formItem">
+        <text class="formLabel">开始时间</text>
+        <picker mode="time" value="{{startTime}}" bindchange="handleStartTimeChange">
+          <view class="pickerValue">{{startTime || '请选择'}}</view>
+        </picker>
+      </view>
+      
+      <!-- 结束日期 -->
+      <view class="formItem">
+        <text class="formLabel">结束日期</text>
+        <picker mode="date" value="{{endDate}}" bindchange="handleEndDateChange">
+          <view class="pickerValue">{{endDate || '请选择'}}</view>
+        </picker>
+      </view>
+      
+      <!-- 结束时间 -->
+      <view class="formItem">
+        <text class="formLabel">结束时间</text>
+        <picker mode="time" value="{{endTime}}" bindchange="handleEndTimeChange">
+          <view class="pickerValue">{{endTime || '请选择'}}</view>
+        </picker>
+      </view>
+      
+      <!-- 唤醒次数 -->
+      <view class="formItem">
+        <text class="formLabel">唤醒次数</text>
+        <input class="formInput" type="number" value="{{wakeTimes}}" bindinput="handleWakeTimesInput" placeholder="请输入唤醒次数" />
+      </view>
+      
+      <!-- 睡眠描述 -->
+      <view class="formItem">
+        <text class="formLabel">睡眠描述</text>
+        <textarea class="formTextarea" value="{{desc}}" bindinput="handleDescInput" placeholder="请输入睡眠描述（可选）" maxlength="200" />
+      </view>
+    </view>
+    
+    <view class="modalFooter">
+      <!-- 删除按钮（仅编辑模式显示） -->
+      <view wx:if="{{mode === 'edit'}}" class="deleteBtn" bindtap="handleDelete">删除</view>
+      <view class="cancelBtn" bindtap="handleClose">取消</view>
+      <view class="submitBtn {{submitting ? 'submitBtnDisabled' : ''}}" bindtap="handleSubmit">
+        {{submitting ? '提交中...' : '确定'}}
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,33 @@
+<navigation-bar title="睡眠管理" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+<month-navigator monthLabel="{{monthLabel}}" bind:prevMonth="handlePrevMonth" bind:nextMonth="handleNextMonth"></month-navigator>
+
+<scroll-view class="scrollarea" scroll-y type="list" refresher-enabled="{{true}}" refresher-triggered="{{refresherTriggered}}" bindrefresherrefresh="onRefresherRefresh">
+  <view class="container">
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="loadingBox">
+      <text class="loadingText">加载中...</text>
+    </view>
+
+    <!-- 睡眠图表 -->
+    <view wx:if="{{!loading}}" class="chartContainer">
+      <sleep-chart days="{{days}}" bind:addSleep="handleAddSleep" bind:editSleep="handleEditSleep"></sleep-chart>
+    </view>
+  </view>
+</scroll-view>
+
+<sleep-form-modal
+  visible="{{formVisible}}"
+  mode="{{formMode}}"
+  recordId="{{formRecordId}}"
+  startDate="{{formStartDate}}"
+  endDate="{{formEndDate}}"
+  startTime="{{formStartTime}}"
+  endTime="{{formEndTime}}"
+  wakeTimes="{{formWakeTimes}}"
+  desc="{{formDesc}}"
+  submitting="{{submitting}}"
+  bind:close="hideForm"
+  bind:fieldChange="handleFieldChange"
+  bind:submit="handleSubmit"
+  bind:delete="handleDelete"
+></sleep-form-modal>
