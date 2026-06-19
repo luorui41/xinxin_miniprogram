@@ -15,8 +15,11 @@ interface SleepRecord {
 interface DayInfo {
   dateStr: string
   dayStr: string
+  dayName: string
   sleepRecords: SleepRecordWithPosition[]
 }
+
+const DAY_NAMES = ['一', '二', '三', '四', '五', '六', '日']
 
 interface SleepRecordWithPosition extends SleepRecord {
   startPercent: number
@@ -27,19 +30,54 @@ function formatDate(year: number, month: number, day: number): string {
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
 }
 
-function getMonthDays(year: number, month: number): number {
-  return new Date(year, month, 0).getDate()
+function getWeekDays(referenceDate: Date): { date: Date; dateStr: string }[] {
+  const year = referenceDate.getFullYear()
+  const month = referenceDate.getMonth()
+  const day = referenceDate.getDate()
+  const dayOfWeek = referenceDate.getDay()
+
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+  const monday = new Date(year, month, day + mondayOffset)
+
+  const days: { date: Date; dateStr: string }[] = []
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(monday.getTime() + i * 24 * 60 * 60 * 1000)
+    days.push({
+      date: currentDate,
+      dateStr: formatDate(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        currentDate.getDate()
+      ),
+    })
+  }
+
+  return days
 }
 
-function getMonthLabel(year: number, month: number): string {
-  return `${year}年${month}月`
+function getWeekLabel(referenceDate: Date): string {
+  const days = getWeekDays(referenceDate)
+  const firstDay = days[0].date
+  const lastDay = days[6].date
+
+  const firstMonth = firstDay.getMonth() + 1
+  const lastMonth = lastDay.getMonth() + 1
+  const firstDate = firstDay.getDate()
+  const lastDate = lastDay.getDate()
+  const year = firstDay.getFullYear()
+
+  if (firstMonth === lastMonth) {
+    return `${year}年${firstMonth}月${firstDate}日 - ${lastDate}日`
+  } else {
+    return `${year}年${firstMonth}月${firstDate}日 - ${lastMonth}月${lastDate}日`
+  }
 }
 
-function getMonthRange(year: number, month: number): { startDate: string; endDate: string } {
-  const days = getMonthDays(year, month)
+function getWeekRangeStr(referenceDate: Date): { startDate: string; endDate: string } {
+  const days = getWeekDays(referenceDate)
   return {
-    startDate: formatDate(year, month, 1),
-    endDate: formatDate(year, month, days),
+    startDate: days[0].dateStr,
+    endDate: days[6].dateStr,
   }
 }
 
@@ -67,9 +105,8 @@ function calculateSingleDayPosition(startTime: string, endTime: string): { start
 Component({
   data: {
     currentDate: Date.now(),
-    year: 0,
-    month: 0,
-    monthLabel: '',
+    weekLabel: '',
+    dateRange: '',
     days: [] as DayInfo[],
     loading: false,
     // 表单相关
@@ -88,40 +125,39 @@ Component({
   },
   lifetimes: {
     attached() {
-      this.initMonthData()
+      this.initWeekData()
     }
   },
   methods: {
-    initMonthData() {
+    initWeekData() {
       const currentDate = new Date(this.data.currentDate)
-      const year = currentDate.getFullYear()
-      const month = currentDate.getMonth() + 1
-      const monthLabel = getMonthLabel(year, month)
+      const weekLabel = getWeekLabel(currentDate)
+      const range = getWeekRangeStr(currentDate)
+      const weekDaysRaw = getWeekDays(currentDate)
       
-      // 生成当月所有日期
-      const daysCount = getMonthDays(year, month)
-      const days: DayInfo[] = []
-      for (let i = 1; i <= daysCount; i++) {
-        days.push({
-          dateStr: formatDate(year, month, i),
-          dayStr: String(i).padStart(2, '0'),
+      // 生成当周所有日期
+      const days: DayInfo[] = weekDaysRaw.map((item) => {
+        const dayIndex = item.date.getDay() === 0 ? 6 : item.date.getDay() - 1
+        return {
+          dateStr: item.dateStr,
+          dayStr: String(item.date.getDate()),
+          dayName: DAY_NAMES[dayIndex],
           sleepRecords: [],
-        })
-      }
+        }
+      })
       
       this.setData({
-        year,
-        month,
-        monthLabel,
+        weekLabel,
+        dateRange: `${range.startDate} ~ ${range.endDate}`,
         days,
       }, () => {
-        this.fetchMonthRecords()
+        this.fetchWeekRecords()
       })
     },
-    fetchMonthRecords() {
+    fetchWeekRecords() {
       this.setData({ loading: true })
-      const { year, month } = this.data
-      const { startDate, endDate } = getMonthRange(year, month)
+      const currentDate = new Date(this.data.currentDate)
+      const { startDate, endDate } = getWeekRangeStr(currentDate)
       
       get<SleepRecord[]>(SLEEP_API + '/query', {
         startDate,
@@ -150,7 +186,7 @@ Component({
             // 如果跨天，计算第二天的睡眠位置并添加
             if (record.endDate !== record.startDate) {
               const secondDayDate = addOneDay(record.startDate)
-              // 检查第二天是否在当前月份范围内
+              // 检查第二天是否在当前周范围内
               if (secondDayDate >= startDate && secondDayDate <= endDate) {
                 const secondDayPosition = calculateSingleDayPosition('00:00', record.endTime)
                 
@@ -182,23 +218,23 @@ Component({
         wx.showToast({ title: '获取睡眠记录失败', icon: 'none' })
       })
     },
-    handlePrevMonth() {
+    handlePrevWeek() {
       const currentDate = new Date(this.data.currentDate)
-      currentDate.setMonth(currentDate.getMonth() - 1)
+      currentDate.setDate(currentDate.getDate() - 7)
       this.setData({ currentDate: currentDate.getTime() }, () => {
-        this.initMonthData()
+        this.initWeekData()
       })
     },
-    handleNextMonth() {
+    handleNextWeek() {
       const currentDate = new Date(this.data.currentDate)
-      currentDate.setMonth(currentDate.getMonth() + 1)
+      currentDate.setDate(currentDate.getDate() + 7)
       this.setData({ currentDate: currentDate.getTime() }, () => {
-        this.initMonthData()
+        this.initWeekData()
       })
     },
     onRefresherRefresh() {
       this.setData({ refresherTriggered: true })
-      this.fetchMonthRecords()
+      this.fetchWeekRecords()
       setTimeout(() => {
         this.setData({ refresherTriggered: false })
       }, 500)
@@ -282,7 +318,7 @@ Component({
         post(SLEEP_API + '/add', payload).then(() => {
           wx.showToast({ title: '添加成功', icon: 'success' })
           this.setData({ formVisible: false, submitting: false })
-          this.fetchMonthRecords()
+          this.fetchWeekRecords()
         }).catch(() => {
           this.setData({ submitting: false })
           wx.showToast({ title: '添加失败', icon: 'none' })
@@ -291,7 +327,7 @@ Component({
         post(SLEEP_API + '/update', { id: formRecordId, ...payload }).then(() => {
           wx.showToast({ title: '修改成功', icon: 'success' })
           this.setData({ formVisible: false, submitting: false })
-          this.fetchMonthRecords()
+          this.fetchWeekRecords()
         }).catch(() => {
           this.setData({ submitting: false })
           wx.showToast({ title: '修改失败', icon: 'none' })
@@ -310,7 +346,7 @@ Component({
             get(SLEEP_API + '/delete/' + formRecordId).then(() => {
               wx.showToast({ title: '删除成功', icon: 'success' })
               this.setData({ formVisible: false })
-              this.fetchMonthRecords()
+              this.fetchWeekRecords()
             }).catch(() => {
               wx.showToast({ title: '删除失败', icon: 'none' })
             })

@@ -12,6 +12,10 @@ Component({
       type: String,
       value: 'record',
     },
+    showMode: {
+      type: Boolean,
+      value: true
+    }
   },
   methods: {
     handlePrevWeek() {

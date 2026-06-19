@@ -1,5 +1,5 @@
 <navigation-bar title="睡眠管理" back="{{true}}" color="black" background="#FFF"></navigation-bar>
-<month-navigator monthLabel="{{monthLabel}}" bind:prevMonth="handlePrevMonth" bind:nextMonth="handleNextMonth"></month-navigator>
+<week-navigator weekLabel="{{weekLabel}}" bind:prevWeek="handlePrevWeek" showMode="{{false}}" bind:nextWeek="handleNextWeek"></week-navigator>
 
 <scroll-view class="scrollarea" scroll-y type="list" refresher-enabled="{{true}}" refresher-triggered="{{refresherTriggered}}" bindrefresherrefresh="onRefresherRefresh">
   <view class="container">

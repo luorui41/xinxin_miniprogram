@@ -1,7 +1,7 @@
 {
   "usingComponents": {
     "navigation-bar": "/components/common/navigation-bar/navigation-bar",
-    "month-navigator": "/components/sleep/month-navigator/month-navigator",
+    "week-navigator": "/components/diet/week-navigator/week-navigator",
     "sleep-chart": "/components/sleep/sleep-chart/sleep-chart",
     "sleep-form-modal": "/components/sleep/sleep-form-modal/sleep-form-modal"
   },

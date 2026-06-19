@@ -7,7 +7,7 @@
     </view>
     <view class="navBtn" bindtap="handleNextWeek">›</view>
   </view>
-  <view class="modeTabs">
+  <view class="modeTabs" wx:if="{{showMode}}">
     <view class="modeTab {{viewMode === 'record' ? 'modeTabActive' : ''}}" data-mode="record" bindtap="handleViewModeChange">
       记录模式
     </view>

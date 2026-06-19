@@ -15,7 +15,12 @@
   <view class="dayRows">
     <block wx:for="{{days}}" wx:key="dateStr">
       <view class="dayRow" data-date="{{item.dateStr}}" bindtap="handleDayClick">
-        <view class="dayLabel">{{item.dayStr}}</view>
+        <view class="dayLabel">
+          <view class="dateCircle">
+            <text class="dateText">{{item.dayStr}}</text>
+            <text class="dayText">{{item.dayName}}</text>
+          </view>
+        </view>
         <view class="sleepBars">
           <!-- 睡眠柱子 -->
           <block wx:for="{{item.sleepRecords}}" wx:key="id" wx:for-item="record">
