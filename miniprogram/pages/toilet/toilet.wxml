@@ -1,0 +1,41 @@
+<view class="pageContainer">
+  <navigation-bar title="如厕" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+  <week-navigator weekLabel="{{weekLabel}}" showMode="{{false}}" bind:prevWeek="handlePrevWeek" bind:nextWeek="handleNextWeek"></week-navigator>
+
+  <scroll-view class="contentArea" scroll-y type="list" refresher-enabled="{{true}}" refresher-triggered="{{refresherTriggered}}" bindrefresherrefresh="onRefresherRefresh">
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="loadingBox">
+      <text class="loadingText">加载中...</text>
+    </view>
+
+    <!-- 每日如厕记录 -->
+    <view wx:if="{{!loading}}" class="daysList">
+      <block wx:for="{{days}}" wx:key="dateStr">
+        <toilet-record-card
+          dateStr="{{item.dateStr}}"
+          dayStr="{{item.dayStr}}"
+          dayName="{{item.dayName}}"
+          toiletRecords="{{item.toiletRecords}}"
+          bind:addToilet="handleAddToilet"
+          bind:editToilet="handleEditToilet"
+        ></toilet-record-card>
+      </block>
+    </view>
+  </scroll-view>
+</view>
+
+<toilet-form-modal
+  visible="{{formVisible}}"
+  mode="{{formMode}}"
+  recordId="{{formRecordId}}"
+  date="{{formDate}}"
+  time="{{formTime}}"
+  hardness="{{formHardness}}"
+  amount="{{formAmount}}"
+  desc="{{formDesc}}"
+  submitting="{{submitting}}"
+  bind:close="hideForm"
+  bind:fieldChange="handleFieldChange"
+  bind:submit="handleSubmit"
+  bind:delete="handleDelete"
+></toilet-form-modal>

@@ -1,0 +1,163 @@
+:host {
+  display: block;
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+.dayCard {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.dayInfo {
+  display: flex;
+  align-items: center;
+}
+
+.dateCircle {
+  width: 64rpx;
+  height: 64rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.3);
+}
+
+.dateText {
+  font-size: 22rpx;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2rpx;
+}
+
+.dayText {
+  font-size: 18rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.addBtn {
+  width: 48rpx;
+  height: 48rpx;
+  background: #1890ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rpx 8rpx rgba(24, 144, 255, 0.3);
+}
+
+.addIcon {
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: 300;
+}
+
+.recordsList {
+  width: 100%;
+}
+
+.recordItem {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+  transition: background-color 0.2s;
+}
+
+.recordItem:last-child {
+  border-bottom: none;
+}
+
+.recordItem:active {
+  background-color: #f8f9fa;
+}
+
+.recordTime {
+  width: 100rpx;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+}
+
+.recordDesc {
+  flex: 1;
+  display: flex;
+  gap: 12rpx;
+}
+
+.descTag {
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* 软硬程度颜色 - 1:很稀(红色), 2:偏稀(黄色), 3:正常(绿色), 4:偏硬(黄色), 5:很硬(红色) */
+.hardness-1 {
+  background: #f5222d;
+}
+
+.hardness-2 {
+  background: #faad14;
+}
+
+.hardness-3 {
+  background: #52c41a;
+}
+
+.hardness-4 {
+  background: #faad14;
+}
+
+.hardness-5 {
+  background: #f5222d;
+}
+
+/* 如厕量颜色 - 1:很少(红色), 2:偏少(黄色), 3:正常(绿色), 4:偏多(黄色), 5:很多(红色) */
+.amount-1 {
+  background: #f5222d;
+}
+
+.amount-2 {
+  background: #faad14;
+}
+
+.amount-3 {
+  background: #52c41a;
+}
+
+.amount-4 {
+  background: #faad14;
+}
+
+.amount-5 {
+  background: #f5222d;
+}
+
+.emptyTip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx 0;
+}
+
+.emptyText {
+  font-size: 26rpx;
+  color: #999999;
+}

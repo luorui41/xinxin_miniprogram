@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.modalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  width: 80%;
+  max-width: 600rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modalTitle {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.closeBtn {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeIcon {
+  font-size: 48rpx;
+  color: #999999;
+  font-weight: 300;
+}
+
+.modalBody {
+  padding: 32rpx;
+}
+
+.formItem {
+  margin-bottom: 24rpx;
+}
+
+.formLabel {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.pickerValue {
+  padding: 16rpx 24rpx;
+  background: #f5f7fa;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.textareaInput {
+  width: 100%;
+  min-height: 120rpx;
+  padding: 16rpx 24rpx;
+  background: #f5f7fa;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+.modalFooter {
+  display: flex;
+  gap: 16rpx;
+  padding: 24rpx 32rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.deleteBtn {
+  flex: 1;
+  height: 80rpx;
+  background: #ff4d4f;
+  color: #ffffff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.submitBtn {
+  flex: 1;
+  height: 80rpx;
+  background: #1890ff;
+  color: #ffffff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.submitBtn[disabled] {
+  background: #d9d9d9;
+  color: #999999;
+}

@@ -168,7 +168,7 @@ Component({
     },
     goToToilet() {
       wx.navigateTo({
-        url: '/pages/living/toilet/toilet',
+        url: '/pages/toilet/toilet',
       })
     },
     async fetchToiletSummary() {

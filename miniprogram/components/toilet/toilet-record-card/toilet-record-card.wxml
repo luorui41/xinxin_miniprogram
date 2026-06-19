@@ -1,0 +1,32 @@
+<view class="dayCard">
+  <!-- 日期头部 -->
+  <view class="dayHeader">
+    <view class="dayInfo">
+      <view class="dateCircle">
+        <text class="dateText">{{dayStr}}</text>
+        <text class="dayText">{{dayName}}</text>
+      </view>
+    </view>
+    <view class="addBtn" bindtap="handleAddClick">
+      <text class="addIcon">+</text>
+    </view>
+  </view>
+
+  <!-- 如厕记录列表 -->
+  <view class="recordsList" wx:if="{{toiletRecords.length > 0}}">
+    <block wx:for="{{toiletRecords}}" wx:key="id">
+      <view class="recordItem" data-record-id="{{item.id}}" bindtap="handleRecordClick">
+        <view class="recordTime">{{item.time}}</view>
+        <view class="recordDesc">
+          <view class="descTag hardness-{{item.hardness}}">{{item.hardnessDesc}}</view>
+          <view class="descTag amount-{{item.amount}}">{{item.amountDesc}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 无记录提示 -->
+  <view class="emptyTip" wx:if="{{toiletRecords.length === 0}}">
+    <text class="emptyText">暂无如厕记录</text>
+  </view>
+</view>

@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/diet/diet",
-    "pages/sleep/sleep"
+    "pages/sleep/sleep",
+    "pages/toilet/toilet"
   ],
   "window": {
     "navigationBarTextStyle": "black",

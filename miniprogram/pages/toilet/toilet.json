@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "navigation-bar": "/components/common/navigation-bar/navigation-bar",
+    "week-navigator": "/components/diet/week-navigator/week-navigator",
+    "toilet-record-card": "/components/toilet/toilet-record-card/toilet-record-card",
+    "toilet-form-modal": "/components/toilet/toilet-form-modal/toilet-form-modal"
+  },
+  "navigationStyle": "custom",
+  "safe-area-inset-bottom": true
+}
