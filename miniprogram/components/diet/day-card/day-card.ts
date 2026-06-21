@@ -20,7 +20,8 @@ Component({
     },
     handleDeleteMeal(e: any) {
       const id = e.currentTarget.dataset.id
-      this.triggerEvent('deleteMeal', { id })
+      const date = e.currentTarget.dataset.date
+      this.triggerEvent('deleteMeal', { id, date })
     },
   },
 })

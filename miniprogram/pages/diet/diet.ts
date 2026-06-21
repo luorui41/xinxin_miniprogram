@@ -226,6 +226,42 @@ Component({
         wx.showToast({ title: '获取饮食记录失败', icon: 'none' })
       })
     },
+    // 获取单日记录（用于局部刷新）
+    fetchDayRecord(dateStr: string, callback?: () => void) {
+      const type = this.data.viewMode === 'record' ? 1 : 2
+
+      get<{ date: string; recipes: DietItem[] }[]>(DIET_API + '/query', {
+        startDate: dateStr,
+        endDate: dateStr,
+        type,
+      }).then((res: { date: string; recipes: DietItem[] }[]) => {
+        const weekRecords = this.data.weekRecords
+
+        // 清空当天的数据
+        if (weekRecords[dateStr]) {
+          weekRecords[dateStr].meals = { 1: [], 2: [], 3: [], 4: [] }
+        }
+
+        // 填充新数据
+        if (res && Array.isArray(res) && res.length > 0) {
+          const dietDate = res[0]
+          if (dietDate.recipes) {
+            dietDate.recipes.forEach((item: DietItem) => {
+              const mealType = item.time
+              if (weekRecords[dateStr].meals[mealType]) {
+                weekRecords[dateStr].meals[mealType].push(item)
+              }
+            })
+          }
+        }
+
+        this.setData({ weekRecords }, () => {
+          callback && callback()
+        })
+      }).catch(() => {
+        wx.showToast({ title: '刷新数据失败', icon: 'none' })
+      })
+    },
     handlePrevWeek() {
       const currentDate = new Date(this.data.currentDate)
       currentDate.setDate(currentDate.getDate() - 7)
@@ -251,7 +287,7 @@ Component({
       this.showAddForm(date, Number(mealType))
     },
     handleDeleteMeal(e: any) {
-      const { id } = e.detail
+      const { id, date } = e.detail
       wx.showModal({
         title: '确认删除',
         content: '确定要删除该饮食记录吗？删除后不可恢复。',
@@ -261,7 +297,8 @@ Component({
           if (res.confirm) {
             get(DIET_API + '/delete/' + id).then(() => {
               wx.showToast({ title: '删除成功', icon: 'success' })
-              this.fetchWeekRecords()
+              // 只刷新当天的数据（局部刷新）
+              this.fetchDayRecord(date)
             }).catch(() => {
               wx.showToast({ title: '删除失败', icon: 'none' })
             })
@@ -358,7 +395,8 @@ Component({
         }).then(() => {
           wx.showToast({ title: '添加成功', icon: 'success' })
           this.setData({ formVisible: false, submitting: false })
-          this.fetchWeekRecords()
+          // 只刷新当天的数据（局部刷新）
+          this.fetchDayRecord(formDate)
         }).catch(() => {
           this.setData({ submitting: false })
           wx.showToast({ title: '添加失败', icon: 'none' })

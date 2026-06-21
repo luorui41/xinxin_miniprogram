@@ -18,7 +18,7 @@
                   {{meal.recipeType === 1 ? '荤' : meal.recipeType === 2 ? '素' : meal.recipeType === 3 ? '果' : meal.recipeType === 4 ? '主' : '其'}}
                 </view>
                 <text class="mealName">{{meal.recipeName}}</text>
-                <view class="deleteIcon" data-id="{{meal.id}}" bindtap="handleDeleteMeal">−</view>
+                <view class="deleteIcon" data-id="{{meal.id}}" data-date="{{dateStr}}" bindtap="handleDeleteMeal">−</view>
               </view>
             </block>
           </view>
