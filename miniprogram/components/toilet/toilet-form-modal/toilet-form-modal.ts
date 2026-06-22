@@ -1,3 +1,5 @@
+import { get } from '../../../utils/request'
+
 Component({
   properties: {
     visible: {
@@ -38,22 +40,50 @@ Component({
     },
   },
   data: {
-    hardnessOptions: [
-      { value: 1, label: '很稀' },
-      { value: 2, label: '偏稀' },
-      { value: 3, label: '正常' },
-      { value: 4, label: '偏硬' },
-      { value: 5, label: '很硬' },
-    ],
-    amountOptions: [
-      { value: 1, label: '很少' },
-      { value: 2, label: '偏少' },
-      { value: 3, label: '正常' },
-      { value: 4, label: '偏多' },
-      { value: 5, label: '很多' },
-    ],
+    hardnessOptions: [] as { value: number; label: string }[],
+    amountOptions: [] as { value: number; label: string }[],
+    hardnessLabel: '正常',
+    amountLabel: '正常',
+  },
+  observers: {
+    'hardness, hardnessOptions': function(hardness: number, hardnessOptions: any[]) {
+      if (hardnessOptions.length > 0) {
+        const option = hardnessOptions.find(item => item.value === hardness)
+        if (option) {
+          this.setData({ hardnessLabel: option.label })
+        }
+      }
+    },
+    'amount, amountOptions': function(amount: number, amountOptions: any[]) {
+      if (amountOptions.length > 0) {
+        const option = amountOptions.find(item => item.value === amount)
+        if (option) {
+          this.setData({ amountLabel: option.label })
+        }
+      }
+    },
+  },
+  lifetimes: {
+    attached() {
+      this.fetchDictOptions()
+    },
   },
   methods: {
+    async fetchDictOptions() {
+      const hardnessRes = await get('/dict/query', { dictType: 'hardness' })
+      const hardnessOptions = (hardnessRes || []).map((item: any) => ({
+        value: Number(item.dictCode),
+        label: item.dictLabel,
+      }))
+
+      const amountRes = await get('/dict/query', { dictType: 'amount' })
+      const amountOptions = (amountRes || []).map((item: any) => ({
+        value: Number(item.dictCode),
+        label: item.dictLabel,
+      }))
+
+      this.setData({ hardnessOptions, amountOptions })
+    },
     handleClose() {
       this.triggerEvent('close')
     },
@@ -61,10 +91,14 @@ Component({
       this.triggerEvent('fieldChange', { field: 'time', value: e.detail.value })
     },
     handleHardnessChange(e: any) {
-      this.triggerEvent('fieldChange', { field: 'hardness', value: Number(e.detail.value) })
+      const index = Number(e.detail.value)
+      const value = this.data.hardnessOptions[index].value
+      this.triggerEvent('fieldChange', { field: 'hardness', value })
     },
     handleAmountChange(e: any) {
-      this.triggerEvent('fieldChange', { field: 'amount', value: Number(e.detail.value) })
+      const index = Number(e.detail.value)
+      const value = this.data.amountOptions[index].value
+      this.triggerEvent('fieldChange', { field: 'amount', value })
     },
     handleDescInput(e: any) {
       this.triggerEvent('fieldChange', { field: 'desc', value: e.detail.value })

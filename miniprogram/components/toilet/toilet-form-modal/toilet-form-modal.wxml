@@ -19,17 +19,19 @@
       <!-- 软硬程度选择 -->
       <view class="formItem">
         <view class="formLabel">软硬程度</view>
-        <picker mode="selector" range="{{hardnessOptions}}" range-key="label" value="{{hardness - 1}}" bindchange="handleHardnessChange">
-          <view class="pickerValue">{{hardnessOptions[hardness - 1].label}}</view>
+        <picker wx:if="{{hardnessOptions.length > 0}}" mode="selector" range="{{hardnessOptions}}" range-key="label" value="{{hardness - 1}}" bindchange="handleHardnessChange">
+          <view class="pickerValue">{{hardnessLabel}}</view>
         </picker>
+        <view wx:else class="pickerValue">加载中...</view>
       </view>
 
       <!-- 如厕量程度选择 -->
       <view class="formItem">
         <view class="formLabel">如厕量</view>
-        <picker mode="selector" range="{{amountOptions}}" range-key="label" value="{{amount - 1}}" bindchange="handleAmountChange">
-          <view class="pickerValue">{{amountOptions[amount - 1].label}}</view>
+        <picker wx:if="{{amountOptions.length > 0}}" mode="selector" range="{{amountOptions}}" range-key="label" value="{{amount - 1}}" bindchange="handleAmountChange">
+          <view class="pickerValue">{{amountLabel}}</view>
         </picker>
+        <view wx:else class="pickerValue">加载中...</view>
       </view>
 
       <!-- 备注 -->
@@ -41,7 +43,7 @@
 
     <view class="modalFooter">
       <button class="deleteBtn" wx:if="{{mode === 'edit'}}" bindtap="handleDelete">删除</button>
-      <button class="submitBtn" bindtap="handleSubmit" disabled="{{submitting}}">
+      <button class="submitBtn {{submitting ? 'submitBtnDisabled' : ''}}" bindtap="handleSubmit" disabled="{{submitting}}">
         {{submitting ? '提交中...' : '提交'}}
       </button>
     </view>
