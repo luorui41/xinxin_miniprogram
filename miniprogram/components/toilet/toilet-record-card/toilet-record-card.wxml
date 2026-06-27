@@ -7,9 +7,7 @@
         <text class="dayText">{{dayName}}</text>
       </view>
     </view>
-    <view class="addBtn" bindtap="handleAddClick">
-      <text class="addIcon">+</text>
-    </view>
+    <image class="addBtn" src="/images/add.png" bindtap="handleAddClick"/>
   </view>
 
   <!-- 如厕记录列表 -->

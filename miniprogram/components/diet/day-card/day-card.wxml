@@ -8,7 +8,7 @@
       <view class="mealSection">
         <view class="mealSectionHeader">
           <view class="mealLabel">{{mealType.label}}</view>
-          <view class="addMealIcon" data-date="{{dateStr}}" data-meal-type="{{mealType.value}}" data-meal-label="{{mealType.label}}" bindtap="handleAddMeal">+</view>
+          <image class="addMealIcon" src="/images/add.png" data-date="{{dateStr}}" data-meal-type="{{mealType.value}}" data-meal-label="{{mealType.label}}" bindtap="handleAddMeal"/>
         </view>
         <block wx:if="{{dayRecord && dayRecord.meals[mealType.value] && dayRecord.meals[mealType.value].length > 0}}">
           <view class="mealItemList">
