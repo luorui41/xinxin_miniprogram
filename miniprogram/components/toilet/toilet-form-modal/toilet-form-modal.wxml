@@ -1,24 +1,22 @@
-<view class="modalContainer" wx:if="{{visible}}" bindtap="handleClose">
+<view class="modalMask" wx:if="{{visible}}" bindtap="handleClose">
   <view class="modalContent" catchtap="preventBubble">
     <view class="modalHeader">
       <text class="modalTitle">{{mode === 'add' ? '新增如厕记录' : '编辑如厕记录'}}</text>
-      <view class="closeBtn" bindtap="handleClose">
-        <text class="closeIcon">×</text>
-      </view>
+      <view class="modalClose" bindtap="handleClose">×</view>
     </view>
-
+    
     <view class="modalBody">
       <!-- 时间选择 -->
       <view class="formItem">
-        <view class="formLabel">时间</view>
+        <text class="formLabel">时间</text>
         <picker mode="time" value="{{time}}" bindchange="handleTimeChange">
-          <view class="pickerValue">{{time}}</view>
+          <view class="pickerValue">{{time || '请选择'}}</view>
         </picker>
       </view>
 
       <!-- 软硬程度选择 -->
       <view class="formItem">
-        <view class="formLabel">软硬程度</view>
+        <text class="formLabel">软硬程度</text>
         <picker wx:if="{{hardnessOptions.length > 0}}" mode="selector" range="{{hardnessOptions}}" range-key="label" value="{{hardness - 1}}" bindchange="handleHardnessChange">
           <view class="pickerValue">{{hardnessLabel}}</view>
         </picker>
@@ -27,7 +25,7 @@
 
       <!-- 如厕量程度选择 -->
       <view class="formItem">
-        <view class="formLabel">如厕量</view>
+        <text class="formLabel">如厕量</text>
         <picker wx:if="{{amountOptions.length > 0}}" mode="selector" range="{{amountOptions}}" range-key="label" value="{{amount - 1}}" bindchange="handleAmountChange">
           <view class="pickerValue">{{amountLabel}}</view>
         </picker>
@@ -36,16 +34,18 @@
 
       <!-- 备注 -->
       <view class="formItem">
-        <view class="formLabel">备注</view>
-        <textarea class="textareaInput" value="{{desc}}" bindinput="handleDescInput" placeholder="请输入备注信息" maxlength="200"></textarea>
+        <text class="formLabel">备注</text>
+        <textarea class="formTextarea" value="{{desc}}" bindinput="handleDescInput" placeholder="请输入备注（可选）" maxlength="200"></textarea>
       </view>
     </view>
-
+    
     <view class="modalFooter">
-      <button class="deleteBtn" wx:if="{{mode === 'edit'}}" bindtap="handleDelete">删除</button>
-      <button class="submitBtn {{submitting ? 'submitBtnDisabled' : ''}}" bindtap="handleSubmit" disabled="{{submitting}}">
-        {{submitting ? '提交中...' : '提交'}}
-      </button>
+      <!-- 删除按钮（仅编辑模式显示） -->
+      <view wx:if="{{mode === 'edit'}}" class="deleteBtn" bindtap="handleDelete">删除</view>
+      <view class="cancelBtn" bindtap="handleClose">取消</view>
+      <view class="submitBtn {{submitting ? 'submitBtnDisabled' : ''}}" bindtap="handleSubmit">
+        {{submitting ? '提交中...' : '确定'}}
+      </view>
     </view>
   </view>
 </view>
