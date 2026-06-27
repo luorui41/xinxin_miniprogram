@@ -1,11 +1,11 @@
 <view class="weekNav">
   <view class="navLeft">
-    <view class="navBtn" bindtap="handlePrevWeek">‹</view>
+    <image class="navBtn" mode="aspectFit" src="/images/arrow-left.png" bindtap="handlePrevWeek" />
     <view class="weekLabel">
       <text class="weekLabelMain">{{weekLabel}}</text>
       <text class="weekLabelRange">{{dateRange}}</text>
     </view>
-    <view class="navBtn" bindtap="handleNextWeek">›</view>
+    <image class="navBtn" mode="aspectFit" src="/images/arrow-right.png" bindtap="handleNextWeek" />
   </view>
   <view class="modeTabs" wx:if="{{showMode}}">
     <view class="modeTab {{viewMode === 'record' ? 'modeTabActive' : ''}}" data-mode="record" bindtap="handleViewModeChange">

@@ -1,9 +1,9 @@
 <view class="monthNav">
   <view class="navLeft">
-    <view class="navBtn" bindtap="handlePrevMonth">‹</view>
+    <image class="navBtn" mode="aspectFit" src="/images/arrow-left.png"bindtap="handlePrevMonth">‹</view>
     <view class="monthLabel">
       <text class="monthLabelMain">{{monthLabel}}</text>
     </view>
-    <view class="navBtn" bindtap="handleNextMonth">›</view>
+    <image class="navBtn" mode="aspectFit" src="/images/arrow-right.png" bindtap="handleNextMonth">›</view>
   </view>
 </view>
