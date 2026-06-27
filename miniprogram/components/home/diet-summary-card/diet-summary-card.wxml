@@ -6,7 +6,7 @@
     </view>
     <view class="dietSummaryMore" bindtap="handleMore">
       <text class="dietSummaryMoreText">更多</text>
-      <text class="dietSummaryMoreArrow">›</text>
+      <image src="/images/arrow-right.png" class="dietSummaryMoreArrow"/>
     </view>
   </view>
   <view wx:if="{{loading}}" class="dietSummaryLoading">

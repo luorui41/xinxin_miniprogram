@@ -6,7 +6,7 @@
     </view>
     <view class="toiletSummaryMore" bindtap="handleMore">
       <text class="toiletSummaryMoreText">更多</text>
-      <text class="toiletSummaryMoreArrow">›</text>
+      <image src="/images/arrow-right.png" class="toiletSummaryMoreArrow"/>
     </view>
   </view>
   <view wx:if="{{loading}}" class="toiletSummaryLoading">

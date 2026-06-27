@@ -6,7 +6,7 @@
     </view>
     <view class="sleepSummaryMore" bindtap="handleMore">
       <text class="sleepSummaryMoreText">更多</text>
-      <text class="sleepSummaryMoreArrow">›</text>
+      <image src="/images/arrow-right.png" class="sleepSummaryMoreArrow"/>
     </view>
   </view>
   <view wx:if="{{loading}}" class="sleepSummaryLoading">
