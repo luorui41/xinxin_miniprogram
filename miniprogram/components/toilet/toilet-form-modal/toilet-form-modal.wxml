@@ -1,4 +1,5 @@
-<view class="modalMask" wx:if="{{visible}}" bindtap="handleClose">
+<root-portal wx:if="{{visible}}">
+  <view class="modalMask" bindtap="handleClose">
   <view class="modalContent" catchtap="preventBubble">
     <view class="modalHeader">
       <text class="modalTitle">{{mode === 'add' ? '新增如厕记录' : '编辑如厕记录'}}</text>
@@ -49,3 +50,4 @@
     </view>
   </view>
 </view>
+</root-portal>

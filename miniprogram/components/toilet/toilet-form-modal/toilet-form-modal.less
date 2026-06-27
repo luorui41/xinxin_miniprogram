@@ -31,6 +31,10 @@
   border-radius: 16rpx 16rpx 0 0;
   overflow: hidden;
   animation: slideUp 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 @keyframes slideUp {
@@ -70,7 +74,7 @@
 
 .modalBody {
   padding: 32rpx;
-  max-height: 60vh;
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -123,8 +127,6 @@
   align-items: center;
   justify-content: flex-end;
   padding: 28rpx 32rpx;
-  padding-bottom: calc(28rpx + constant(safe-area-inset-bottom));
-  padding-bottom: calc(28rpx + env(safe-area-inset-bottom));
   border-top: 1rpx solid #f5f5f5;
   gap: 20rpx;
   background: #fafafa;

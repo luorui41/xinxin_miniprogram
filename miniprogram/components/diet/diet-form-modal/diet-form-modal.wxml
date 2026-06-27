@@ -1,57 +1,50 @@
 <root-portal wx:if="{{visible}}">
-  <view class="formMask" bindtap="handleCancel">
-    <view class="formModal" catchtap="preventBubble">
-      <!-- 弹窗头部 -->
-      <view class="formHeader">
-        <text class="formTitle">添加饮食记录</text>
-        <view class="formClose" bindtap="handleCancel">×</view>
+  <view class="modalMask" bindtap="handleCancel">
+  <view class="modalContent" catchtap="preventBubble">
+    <view class="modalHeader">
+      <text class="modalTitle">添加饮食记录</text>
+      <view class="modalClose" bindtap="handleCancel">×</view>
+    </view>
+
+    <view class="modalBody">
+      <view class="formInfo">
+        <text class="formInfoItem">日期：{{formDate}}</text>
+        <text class="formInfoItem">餐次：{{mealOptions[formMealType - 1].label}}</text>
       </view>
 
-      <!-- 弹窗内容 -->
-      <view class="formBody">
-        <!-- 日期和餐次 -->
-        <view class="formInfo">
-          <text class="formInfoItem">日期：{{formDate}}</text>
-          <text class="formInfoItem">餐次：{{mealOptions[formMealType - 1].label}}</text>
-        </view>
-
-        <!-- 菜谱类型筛选 -->
-        <view class="formField">
-          <text class="formLabel">菜谱类型</text>
-          <view class="typeTagList">
-            <block wx:for="{{recipeTypeOptions}}" wx:key="value">
-              <view class="typeTag {{filterType === item.value ? 'typeTagActive' : ''}}" data-type="{{item.value}}" bindtap="handleFilterTypeChange">
-                {{item.label}}
-              </view>
-            </block>
-          </view>
-        </view>
-
-        <!-- 选择菜谱 -->
-        <view class="formField">
-          <text class="formLabel">选择菜谱 <text class="required">*</text></text>
-          <picker wx:if="{{!loadingRecipes}}" mode="selector" range="{{filteredRecipes}}" range-key="label" value="{{selectedRecipeIndex}}" bindchange="handleRecipeChange">
-            <view class="pickerValue {{selectedRecipe ? '' : 'pickerPlaceholder'}}">
-              {{selectedRecipe ? selectedRecipe.name : '请选择菜谱'}}
+      <view class="formItem">
+        <text class="formLabel">菜谱类型</text>
+        <view class="typeTagList">
+          <block wx:for="{{recipeTypeOptions}}" wx:key="value">
+            <view class="typeTag {{filterType === item.value ? 'typeTagActive' : ''}}" data-type="{{item.value}}" bindtap="handleFilterTypeChange">
+              {{item.label}}
             </view>
-          </picker>
-          <view wx:else class="pickerLoading">加载中...</view>
-        </view>
-
-        <!-- 备注 -->
-        <view class="formField">
-          <text class="formLabel">备注</text>
-          <textarea class="formTextarea" value="{{formDietDesc}}" bindinput="handleDietDescInput" placeholder="请输入备注（可选）" maxlength="200" />
+          </block>
         </view>
       </view>
 
-      <!-- 弹窗底部 -->
-      <view class="formFooter">
-        <view class="formCancelBtn" bindtap="handleCancel">取消</view>
-        <view class="formSubmitBtn {{submitting ? 'formSubmitBtnDisabled' : ''}}" bindtap="handleSubmit">
-          {{submitting ? '提交中...' : '确定'}}
-        </view>
+      <view class="formItem">
+        <text class="formLabel">选择菜谱 <text class="required">*</text></text>
+        <picker wx:if="{{!loadingRecipes}}" mode="selector" range="{{filteredRecipes}}" range-key="label" value="{{selectedRecipeIndex}}" bindchange="handleRecipeChange">
+          <view class="pickerValue {{selectedRecipe ? '' : 'pickerPlaceholder'}}">
+            {{selectedRecipe ? selectedRecipe.name : '请选择菜谱'}}
+          </view>
+        </picker>
+        <view wx:else class="pickerLoading">加载中...</view>
+      </view>
+
+      <view class="formItem">
+        <text class="formLabel">备注</text>
+        <textarea class="formTextarea" value="{{formDietDesc}}" bindinput="handleDietDescInput" placeholder="请输入备注（可选）" maxlength="200" />
+      </view>
+    </view>
+
+    <view class="modalFooter">
+      <view class="cancelBtn" bindtap="handleCancel">取消</view>
+      <view class="submitBtn {{submitting ? 'submitBtnDisabled' : ''}}" bindtap="handleSubmit">
+        {{submitting ? '提交中...' : '确定'}}
       </view>
     </view>
   </view>
+</view>
 </root-portal>
