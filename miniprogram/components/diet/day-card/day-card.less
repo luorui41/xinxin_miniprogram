@@ -50,12 +50,65 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16rpx;
+
+  .mealheader{
+    display: flex;
+    align-items: center;
+  }
 }
 
 .mealSection {
+  display: flex;
+  align-items: stretch;
   background: #fafafa;
   border-radius: 12rpx;
-  padding: 20rpx;
+
+  &.breakfast {
+    .stick {
+      background: #FF9500;
+    }
+  }
+
+  &.lunch{
+    .stick{
+      background: #34C759;
+    }
+  }
+
+  &.dinner{
+    .stick{
+      background: #5856D6;
+    }
+  }
+
+  &.other{
+    .stick{
+      background: #BDBDBD;
+    }
+  }
+
+  .stick {
+    width: 6rpx;
+    margin-right: 12rpx;
+    border-radius: 8rpx 0 0 8rpx;
+  }
+
+  .remainContent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 12rpx 16rpx 12rpx 8rpx;
+  }
+
+  .mealIcon {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 16rpx;
+  }
+
+  .mealContent {
+    flex: 1;
+  }
 }
 
 .mealLabel {
@@ -108,11 +161,25 @@
 }
 
 /* 菜谱类型颜色 */
-.typeBadge1 { background-color: #ff6b6b; }
-.typeBadge2 { background-color: #51cf66; }
-.typeBadge3 { background-color: #ffd43b; }
-.typeBadge4 { background-color: #74c0fc; }
-.typeBadge5 { background-color: #b197fc; }
+.typeBadge1 {
+  background-color: #ff6b6b;
+}
+
+.typeBadge2 {
+  background-color: #51cf66;
+}
+
+.typeBadge3 {
+  background-color: #ffd43b;
+}
+
+.typeBadge4 {
+  background-color: #74c0fc;
+}
+
+.typeBadge5 {
+  background-color: #b197fc;
+}
 
 .mealName {
   font-size: 28rpx;
@@ -122,12 +189,6 @@
 .deleteIcon {
   width: 32rpx;
   height: 32rpx;
-  line-height: 30rpx;
-  text-align: center;
-  border-radius: 50%;
-  background: #e8e8e8;
-  color: #999999;
-  font-size: 22rpx;
   margin-left: 8rpx;
   flex-shrink: 0;
 }

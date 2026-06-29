@@ -4,9 +4,7 @@ App<IAppOption>({
   onLaunch() {
     // 检查小程序更新
     const updateManager = wx.getUpdateManager()
-    updateManager.onCheckForUpdate((res) => {
-      console.log('检查更新结果:', res.hasUpdate)
-    })
+    updateManager.onCheckForUpdate((res) => {})
     updateManager.onUpdateReady(() => {
       wx.showModal({
         title: '更新提示',
@@ -24,14 +22,6 @@ App<IAppOption>({
         title: '新版本下载失败',
         icon: 'none',
       })
-    })
-
-    // 登录
-    wx.login({
-      success: res => {
-        console.log(res.code)
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      },
     })
   },
 })

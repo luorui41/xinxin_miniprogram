@@ -80,10 +80,10 @@ interface DayRecord {
 type ViewMode = 'record' | 'plan'
 
 const MEAL_TYPES = [
-  { value: 1, label: '早餐' },
-  { value: 2, label: '午餐' },
-  { value: 3, label: '晚餐' },
-  { value: 4, label: '其他' },
+  { value: 1, label: '早餐', icon: "breakfast", iconPath:"/images/icon-breakfast.png" },
+  { value: 2, label: '午餐', icon: "lunch", iconPath:"/images/icon-lunch.png" },
+  { value: 3, label: '晚餐', icon: "dinner", iconPath:"/images/icon-dinner.png" },
+  { value: 4, label: '其他', icon: "other", iconPath:"/images/icon-other.png" },
 ]
 
 interface WeekDayInfo {

@@ -5,25 +5,33 @@
   </view>
   <view class="dayContent">
     <block wx:for="{{mealTypes}}" wx:key="value" wx:for-item="mealType">
-      <view class="mealSection">
-        <view class="mealSectionHeader">
-          <view class="mealLabel">{{mealType.label}}</view>
-          <image class="addMealIcon" src="/images/add.png" data-date="{{dateStr}}" data-meal-type="{{mealType.value}}" data-meal-label="{{mealType.label}}" bindtap="handleAddMeal"/>
-        </view>
-        <block wx:if="{{dayRecord && dayRecord.meals[mealType.value] && dayRecord.meals[mealType.value].length > 0}}">
-          <view class="mealItemList">
-            <block wx:for="{{dayRecord.meals[mealType.value]}}" wx:key="id" wx:for-item="meal">
-              <view class="mealItem">
-                <view class="typeBadge {{'typeBadge' + meal.recipeType}}">
-                  {{meal.recipeType === 1 ? '荤' : meal.recipeType === 2 ? '素' : meal.recipeType === 3 ? '果' : meal.recipeType === 4 ? '主' : '其'}}
-                </view>
-                <text class="mealName">{{meal.recipeName}}</text>
-                <view class="deleteIcon" data-id="{{meal.id}}" data-date="{{dateStr}}" bindtap="handleDeleteMeal">−</view>
+      <view class="mealSection {{mealType.icon}}">
+        <view class="stick"></view>
+        <view class="remainContent">
+          <view class="mealContent">
+            <view class="mealSectionHeader">
+              <view class="mealheader">
+                <image class="mealIcon" src="{{mealType.iconPath}}" />
+                <view class="mealLabel">{{mealType.label}}</view>
+              </view>
+              <image class="addMealIcon" src="/images/add.png" data-date="{{dateStr}}" data-meal-type="{{mealType.value}}" data-meal-label="{{mealType.label}}" bindtap="handleAddMeal" />
+            </view>
+            <block wx:if="{{dayRecord && dayRecord.meals[mealType.value] && dayRecord.meals[mealType.value].length > 0}}">
+              <view class="mealItemList">
+                <block wx:for="{{dayRecord.meals[mealType.value]}}" wx:key="id" wx:for-item="meal">
+                  <view class="mealItem">
+                    <view class="typeBadge {{'typeBadge' + meal.recipeType}}">
+                      {{meal.recipeType === 1 ? '荤' : meal.recipeType === 2 ? '素' : meal.recipeType === 3 ? '果' : meal.recipeType === 4 ? '主' : '其'}}
+                    </view>
+                    <text class="mealName">{{meal.recipeName}}</text>
+                    <image class="deleteIcon" src="/images/remove.png" data-id="{{meal.id}}" data-date="{{dateStr}}" bindtap="handleDeleteMeal"/>
+                  </view>
+                </block>
               </view>
             </block>
+            <view wx:else class="emptyMeal">暂无记录</view>
           </view>
-        </block>
-        <view wx:else class="emptyMeal">暂无记录</view>
+        </view>
       </view>
     </block>
   </view>
